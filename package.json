@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "single page application development with react",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexGeControl/FullStacker--02-React.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Ge Yao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexGeControl/FullStacker--02-React/issues"
+  },
+  "homepage": "https://github.com/AlexGeControl/FullStacker--02-React#readme",
+  "devDependencies": {
+    "lite-server": "^2.5.4"
+  }
+}

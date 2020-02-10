@@ -9,7 +9,7 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - ${PWD}/workspace:/home/node/app
+      - ${PWD}:/home/node/app
     ports:
         - "3000:3000"
         - "3001:3001"
