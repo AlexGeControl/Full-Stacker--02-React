@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { DISHES } from './shared/dishes';
 
 import { Navbar, NavbarBrand } from 'reactstrap';
-import Menu from './components/Menu';
+import Menu from './components/MenuComponent';
 
 import './App.css';
 import { render } from 'react-dom';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Media } from 'reactstrap'
-import { Card, CardImg, CardImgOverlay, CardTitle, CardBody, CardText } from 'reactstrap';
 
+import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
+import DishDetails from './DishDetailsComponent';
 
 class Menu extends Component {
     constructor(props) {
@@ -29,19 +29,7 @@ class Menu extends Component {
                 <div></div>
             );
         } else {
-            return (
-                <Card>
-                    <CardImg className="img-responsive" src={dish.image} alt={dish.name}/>
-                    <CardBody>
-                        <CardTitle>
-                            <strong>{dish.name}</strong>
-                        </CardTitle>
-                        <CardText>
-                            {dish.description}
-                        </CardText>
-                    </CardBody>
-                </Card>
-            );
+            return <DishDetails selectedDish={dish} />;
         }
     }
 
@@ -73,11 +61,8 @@ class Menu extends Component {
             <div className="row">
                 {menu}
             </div>
-            <div className="row">
-                <div className="col-12 col-md-5 m-1">
-                    {this.renderSelectedDish(this.state.selectedDish)}
-                </div>
-            </div>
+
+            {this.renderSelectedDish(this.state.selectedDish)}
           </div>
         );
     }
