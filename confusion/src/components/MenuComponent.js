@@ -29,7 +29,7 @@ class Menu extends Component {
                 <div></div>
             );
         } else {
-            return <DishDetails selectedDish={dish} />;
+            return <DishDetails dish={dish} />;
         }
     }
 
