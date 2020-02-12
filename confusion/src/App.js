@@ -4,6 +4,9 @@ import Main from './components/MainComponent';
 
 import './App.css';
 
+/*
+  App: functional component
+ */
 class App extends Component {
   render() {
     return (

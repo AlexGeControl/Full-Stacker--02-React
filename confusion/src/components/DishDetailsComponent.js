@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import { Card, CardImg, CardTitle, CardBody, CardText } from 'reactstrap';
 import { ListGroup, ListGroupItem, ListGroupItemText } from 'reactstrap';
 
-class DishDetails extends Component {
+/*
+    DishDetails: functional component
+ */
     // a. selected dish overview:
-    renderOverview(dish) {
+    function Overview({dish}) {
         return (
             <Card>
                 <CardImg className="img-responsive" src={dish.image} alt={dish.name}/>
@@ -23,7 +25,7 @@ class DishDetails extends Component {
     }
 
     // b. comments:
-    renderDate(datetime) {
+    function DateFormatted({datetime}) {
         // define format:
         const options = {
             month: "short",
@@ -36,29 +38,27 @@ class DishDetails extends Component {
         );
     }
 
-    renderComment(comment) {        
-        return (
-            <div key={comment.id}>
-                <ListGroupItem>
-                    <ListGroupItemText>
-                    <blockquote className="blockquote">
-                        <p class="mb-0  text-left">
-                            {comment.comment}
-                        </p>
-                        <footer className="blockquote-footer mt-0 text-right">
-                            {comment.author}, 
-                            <cite>
-                                {this.renderDate(comment.date)}
-                            </cite>
-                        </footer>
-                    </blockquote>
-                    </ListGroupItemText>
-                </ListGroupItem>
-            </div>
+    function Comment({comment}) {        
+        return (            
+            <ListGroupItem>
+                <ListGroupItemText>
+                <blockquote className="blockquote">
+                    <p class="mb-0  text-left">
+                        {comment.comment}
+                    </p>
+                    <footer className="blockquote-footer mt-0 text-right">
+                        {comment.author}, 
+                        <cite>
+                            <DateFormatted datetime={comment.date} />
+                        </cite>
+                    </footer>
+                </blockquote>
+                </ListGroupItemText>
+            </ListGroupItem>
         );
     }
 
-    renderComments(comments) {
+    function Comments({comments}) {
         return (
             <div>
                 <h4 className="text-left m-2">Comments</h4>
@@ -66,7 +66,13 @@ class DishDetails extends Component {
                 <ListGroup className="list-group-flush"> 
                     {
                         comments.map(
-                            (comment) => this.renderComment(comment)
+                            (comment) => {
+                                return (
+                                    <div key={comment.id}>
+                                        <Comment comment={comment} />
+                                    </div>
+                                );
+                            }
                         )
                     }
                 </ListGroup>
@@ -74,8 +80,8 @@ class DishDetails extends Component {
         );
     } 
 
-    render() {
-        const dish = this.props.dish;
+    const DishDetails = (props) => {
+        const dish = props.dish;
 
         /*
             display nothing for null:
@@ -89,14 +95,13 @@ class DishDetails extends Component {
         return (
             <div className="row">
                 <div className="row col-12 col-md-5 m-1">
-                    {this.renderOverview(dish)}
+                    <Overview dish={dish} />
                 </div>
                 <div className="row col-12 col-md-5 m-1">
-                    {this.renderComments(dish.comments)}
+                    <Comments comments={dish.comments} />
                 </div>
             </div>
         );
     }
-}
 
 export default DishDetails

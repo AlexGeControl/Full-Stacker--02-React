@@ -1,39 +1,40 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 
-class Menu extends Component {
-    /*
-        render the view of the component
-     */
-    renderDish(dish) {
+/*
+    Menu: functional component
+ */
+    function RenderMenuItem({dish, onDishSelect}) {
         if (dish === null) {
             return (
                 <div></div>
             );
         }        
 
-        const onDishSelect = this.props.onDishSelect;
-
-        return (
-            <div key={dish.id} className="col-12 col-md-5 m-1">
-                <Card
-                    onClick={() => onDishSelect(dish.id)}
-                >
-                    <CardImg className="img-responsive" src={dish.image} alt={dish.name} />
-                    <CardImgOverlay>
-                        <CardTitle>
-                            <strong>{dish.name}</strong>
-                        </CardTitle>
-                    </CardImgOverlay>
-                </Card>
-            </div>
+        return (            
+            <Card
+                onClick={() => onDishSelect(dish.id)}
+            >
+                <CardImg className="img-responsive" src={dish.image} alt={dish.name} />
+                <CardImgOverlay>
+                    <CardTitle>
+                        <strong>{dish.name}</strong>
+                    </CardTitle>
+                </CardImgOverlay>
+            </Card>
         );
     }
 
-    render() {
-        const menu = this.props.dishes.map(
-            (dish) => this.renderDish(dish)
+    const Menu = (props) => {
+        const menu = props.dishes.map(
+            (dish) => {
+                return (
+                    <div key={dish.id} className="col-12 col-md-5 m-1">
+                        <RenderMenuItem dish={dish} onDishSelect={props.onDishSelect} />
+                    </div>
+                );
+            }
         );
 
         return (
@@ -42,6 +43,5 @@ class Menu extends Component {
             </div>
         );
     }
-}
 
 export default Menu;

@@ -7,6 +7,9 @@ import DishDetails from './DishDetailsComponent';
 // state:
 import DISHES from '../shared/dishes';
 
+/*
+    Main: container component
+ */
 class Main extends Component {
     constructor(props) {
         super(props);
