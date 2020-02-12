@@ -4,14 +4,12 @@ import { Card, CardImg, CardTitle, CardBody, CardText } from 'reactstrap';
 import { ListGroup, ListGroupItem, ListGroupItemText } from 'reactstrap';
 
 class DishDetails extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    renderDish(dish) {
+    // a. selected dish overview:
+    renderOverview(dish) {
         return (
             <Card>
                 <CardImg className="img-responsive" src={dish.image} alt={dish.name}/>
+                
                 <CardBody>
                     <CardTitle>
                         <strong>{dish.name}</strong>
@@ -24,10 +22,21 @@ class DishDetails extends Component {
         );
     }
 
-    renderComment(comment) {
-        const datetime = new Date(comment.date);
-        const date = datetime.toDateString();
+    // b. comments:
+    renderDate(datetime) {
+        // define format:
+        const options = {
+            month: "short",
+            day: "2-digit",
+            year: "numeric"
+        }
 
+        return new Intl.DateTimeFormat(undefined, options).format(
+            new Date(datetime)
+        );
+    }
+
+    renderComment(comment) {        
         return (
             <div key={comment.id}>
                 <ListGroupItem>
@@ -37,9 +46,9 @@ class DishDetails extends Component {
                             {comment.comment}
                         </p>
                         <footer className="blockquote-footer mt-0 text-right">
-                            {comment.author},
+                            {comment.author}, 
                             <cite>
-                                {date}
+                                {this.renderDate(comment.date)}
                             </cite>
                         </footer>
                     </blockquote>
@@ -49,16 +58,16 @@ class DishDetails extends Component {
         );
     }
 
-    renderComments(dish) {
-        const comments = dish.comments;
-
+    renderComments(comments) {
         return (
             <div>
                 <h4 className="text-left m-2">Comments</h4>
 
                 <ListGroup className="list-group-flush"> 
                     {
-                        comments.map(this.renderComment)
+                        comments.map(
+                            (comment) => this.renderComment(comment)
+                        )
                     }
                 </ListGroup>
             </div>
@@ -68,17 +77,25 @@ class DishDetails extends Component {
     render() {
         const dish = this.props.dish;
 
+        /*
+            display nothing for null:
+         */
+        if (dish === undefined) {
+            return (
+                <div></div>
+            );
+        }
+
         return (
             <div className="row">
                 <div className="row col-12 col-md-5 m-1">
-                    {this.renderDish(dish)}
+                    {this.renderOverview(dish)}
                 </div>
                 <div className="row col-12 col-md-5 m-1">
-                    {this.renderComments(dish)}
+                    {this.renderComments(dish.comments)}
                 </div>
             </div>
         );
-
     }
 }
 
