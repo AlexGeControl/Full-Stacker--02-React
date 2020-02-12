@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
 import { Navbar, NavbarBrand } from 'reactstrap';
-// presentational:
+
+import Header from './HeaderComponent';
 import Menu from './MenuComponent';
 import DishDetails from './DishDetailsComponent';
-// state:
+import Footer from './FooterComponent';
+
 import DISHES from '../shared/dishes';
 
 /*
@@ -33,17 +35,21 @@ class Main extends Component {
 
         return (
             <div className="App">
-                <Navbar dark color="primary">
+                <Navbar dark>
                     <div className="container">
                         <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
                     </div>
                 </Navbar>
                 
+                <Header />
+
                 <div className="container">
                     <Menu dishes={this.state.dishes} onDishSelect={(dishId) => this.onDishSelect(dishId)} />
 
                     <DishDetails dish={selectedDish} />
                 </div>
+
+                <Footer />
           </div>
         );
     }
