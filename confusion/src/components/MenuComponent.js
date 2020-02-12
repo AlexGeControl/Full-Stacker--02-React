@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
+import { Container, Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 
 /*
     Menu: functional component
@@ -38,9 +38,11 @@ const Menu = (props) => {
     );
 
     return (
-        <div className="row">
-            {menu}
-        </div>
+        <Container>
+            <div className="row">
+                {menu}
+            </div>
+        </Container>
     );
 }
 

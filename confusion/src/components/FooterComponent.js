@@ -7,25 +7,25 @@ function Links() {
             <h5>Links</h5>
             <ul className="list-unstyled">
                 <li>
-                    <a href="#">
+                    <a href="/home">
                         <span className="fa fa-home fa-lg"></span>
                         Home
                     </a>
                 </li>
                 <li>
-                    <a href="./aboutus.html">
+                    <a href="/aboutus">
                         <span className="fa fa-info fa-lg"></span>
                         About
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/menu">
                         <span className="fa fa-list fa-lg"></span>
                         Menu
                     </a>
                 </li>
                 <li>
-                    <a href="./contactus.html">
+                    <a href="/contactus">
                         <span className="fa fa-address-card fa-lg"></span>
                         Contact
                     </a>
@@ -85,10 +85,10 @@ function Footer() {
                         <div className="offset-1 col-4 col-sm-2">
                             <Links />
                         </div>
-                        <div class="col-7 col-sm-5">
+                        <div className="col-7 col-sm-5">
                             <Address />
                         </div>
-                        <div class="col-12 col-sm-4 align-self-center">
+                        <div className="col-12 col-sm-4 align-self-center">
                             <SocialNetwork />
                         </div>
                     </div>

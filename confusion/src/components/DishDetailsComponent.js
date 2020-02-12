@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Card, CardImg, CardTitle, CardBody, CardText } from 'reactstrap';
 import { ListGroup, ListGroupItem, ListGroupItemText } from 'reactstrap';
