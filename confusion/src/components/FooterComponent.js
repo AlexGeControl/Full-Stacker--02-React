@@ -1,36 +1,40 @@
 import React from 'react';
+
 import { Container } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
 function Links() {
     return (
         <div>            
             <h5>Links</h5>
-            <ul className="list-unstyled">
-                <li>
-                    <a href="/home">
+
+            <ListGroup flush>
+                <ListGroupItem>
+                    <NavLink to="/home">
                         <span className="fa fa-home fa-lg"></span>
                         Home
-                    </a>
-                </li>
-                <li>
-                    <a href="/aboutus">
+                    </NavLink>
+                </ListGroupItem>
+                <ListGroupItem>
+                    <NavLink to="/about">
                         <span className="fa fa-info fa-lg"></span>
                         About
-                    </a>
-                </li>
-                <li>
-                    <a href="/menu">
+                    </NavLink>
+                </ListGroupItem>
+                <ListGroupItem>
+                    <NavLink to="/menu">
                         <span className="fa fa-list fa-lg"></span>
                         Menu
-                    </a>
-                </li>
-                <li>
-                    <a href="/contactus">
+                    </NavLink>
+                </ListGroupItem>
+                <ListGroupItem>
+                    <NavLink to="/contact">
                         <span className="fa fa-address-card fa-lg"></span>
                         Contact
-                    </a>
-                </li>
-            </ul>
+                    </NavLink>
+                </ListGroupItem>
+            </ListGroup>
         </div>
     );
 }
