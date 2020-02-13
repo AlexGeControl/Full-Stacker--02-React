@@ -60,7 +60,7 @@ function History() {
             <div className="col-12">
                 <div className="card card-body bg-light">
                     <blockquote className="blockquote text-center">
-                        <p class="mb-0 text-left">
+                        <p className="mb-0 text-left">
                             You'd better cut the pizza in four pieces because
                             I'm not hungry enough to eat six.
                         </p>
@@ -86,7 +86,7 @@ function RenderLeader({leaders, title}) {
                     <h3>{title}</h3>
                 </div>
 
-                <ul class="list-unstyled mt-5">
+                <ul className="list-unstyled mt-5">
                     {
                         leaders.map(
                             (leader) => {

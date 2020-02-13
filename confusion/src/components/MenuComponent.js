@@ -6,17 +6,23 @@ import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
 
-function Path() {
+function Navigation() {
     return (
-        <div className="col-12">
-            <Breadcrumb>
-                <BreadcrumbItem>
-                    <Link to="/home">Home</Link>
-                </BreadcrumbItem>
-                <BreadcrumbItem>
-                    <Link to="#">Menu</Link>
-                </BreadcrumbItem>
-            </Breadcrumb>
+        <div className="row">
+            <div className="col-12">
+                <Breadcrumb>
+                    <BreadcrumbItem>
+                        <Link to="/home">Home</Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Link to="#">Menu</Link>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            </div>
+            <div className="col-12">
+                <h3>Menu</h3>
+                <hr />
+            </div>
         </div>
     );
 }
@@ -58,9 +64,8 @@ const Menu = (props) => {
 
     return (
         <Container>
-            <div className="row">
-                <Path />
-            </div>
+            <Navigation />
+
             <div className="row justify-content-center">
                 {menu}
             </div>
