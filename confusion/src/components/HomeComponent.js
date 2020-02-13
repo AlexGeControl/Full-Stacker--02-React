@@ -29,7 +29,7 @@ function RenderItem({item, title}) {
     );
 }
 
-function Home(props) {    
+function Home(props) {
     return (
         <Container>
             <RenderItem item={props.dish} title="Our Lipsmacking Culinary Creations" />

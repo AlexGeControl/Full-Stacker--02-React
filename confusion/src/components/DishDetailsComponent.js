@@ -1,30 +1,58 @@
 import React from 'react';
 
+import { Container } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Card, CardImg, CardTitle, CardBody, CardText } from 'reactstrap';
-import { ListGroup, ListGroupItem, ListGroupItemText } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 
-/*
-    DishDetails: functional component
- */
-// a. selected dish overview:
-function Overview({dish}) {
+import { Link } from 'react-router-dom';
+
+function Navigation({dish}) {
     return (
-        <Card>
-            <CardImg className="img-responsive" src={dish.image} alt={dish.name}/>
-            
-            <CardBody>
-                <CardTitle>
-                    <strong>{dish.name}</strong>
-                </CardTitle>
-                <CardText>
-                    {dish.description}
-                </CardText>
-            </CardBody>
-        </Card>
+        <div className="row">
+            <div className="col-12">
+                <Breadcrumb>
+                    <BreadcrumbItem>
+                        <Link to="/menu">Menu</Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem active>
+                        <Link to="#">{dish.name}</Link>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            </div>
+            <div className="col-12">
+                <h3>{dish.name}</h3>
+                <hr />
+            </div>
+        </div>
     );
 }
 
-// b. comments:
+function Overview({dish}) {
+    if (dish === undefined) {
+        return (
+            <div></div>
+        );
+    }
+
+    return (
+        <div className="col-12 col-md-5 m-1">
+            <Card>
+                <CardImg className="img-responsive" src={dish.image} alt={dish.name}/>
+                
+                <CardBody>
+                    <CardTitle>
+                        <strong>{dish.name}</strong>
+                    </CardTitle>
+                    <CardText>
+                        {dish.description}
+                    </CardText>
+                </CardBody>
+            </Card>
+        </div>
+    );
+}
+
 function DateFormatted({datetime}) {
     // define format:
     const options = {
@@ -39,28 +67,34 @@ function DateFormatted({datetime}) {
 }
 
 function Comment({comment}) {        
-    return (            
-        <ListGroupItem>
-            <ListGroupItemText>
-            <blockquote className="blockquote">
-                <p class="mb-0  text-left">
-                    {comment.comment}
-                </p>
-                <footer className="blockquote-footer mt-0 text-right">
-                    {comment.author}, 
-                    <cite>
-                        <DateFormatted datetime={comment.date} />
-                    </cite>
-                </footer>
-            </blockquote>
-            </ListGroupItemText>
-        </ListGroupItem>
+    return (
+        <div>
+            <ListGroupItem>
+                <blockquote className="blockquote">
+                    <p className="mb-0 text-left">
+                        {comment.comment}
+                    </p>
+                    <footer className="blockquote-footer mt-0 text-right">
+                        {comment.author}, 
+                        <cite>
+                            <DateFormatted datetime={comment.date} />
+                        </cite>
+                    </footer>
+                </blockquote>
+            </ListGroupItem>
+        </div>            
     );
 }
 
 function Comments({comments}) {
+    if (comments === undefined) {
+        return (
+            <div></div>
+        );
+    }
+
     return (
-        <div>
+        <div className="col-12 col-md-5 m-1">
             <h4 className="text-left m-2">Comments</h4>
 
             <ListGroup className="list-group-flush"> 
@@ -82,25 +116,17 @@ function Comments({comments}) {
 
 const DishDetails = (props) => {
     const dish = props.dish;
-
-    /*
-        display nothing for null:
-        */
-    if (dish === undefined) {
-        return (
-            <div></div>
-        );
-    }
+    const comments = props.comments;
 
     return (
-        <div className="row">
-            <div className="row col-12 col-md-5 m-1">
+        <Container>
+            <Navigation dish={dish} />
+
+            <div className="row">
                 <Overview dish={dish} />
+                <Comments comments={comments} />
             </div>
-            <div className="row col-12 col-md-5 m-1">
-                <Comments comments={dish.comments} />
-            </div>
-        </div>
+        </Container>
     );
 }
 
