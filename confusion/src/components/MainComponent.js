@@ -5,6 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './HeaderComponent';
 
 import Home from './HomeComponent';
+import About from './AboutComponent';
 import Menu from './MenuComponent';
 import DishDetails from './DishDetailsComponent';
 import Contact from './ContactComponent';
@@ -25,9 +26,7 @@ class Main extends Component {
 
         this.state = {
             dishes: DISHES,
-
             comments: COMMENTS,
-
             promotions: PROMOTIONS,
             leaders: LEADERS
         };
@@ -41,8 +40,13 @@ class Main extends Component {
 
             return <Home dish={dish} promotion={promotion} leader={leader} />;
         };
+
+        const AboutPage = () => {
+            return <About leaders={this.state.leaders} />;
+        }
+
         const MenuPage = () => {return <Menu dishes={this.state.dishes} />}
-        const SelectedDish = ({match}) => {
+        const DishPage = ({match}) => {
             // parse dish id as int:
             const dishId = parseInt(match.params.dishId, 10);
             
@@ -52,6 +56,7 @@ class Main extends Component {
 
             return <DishDetails dish={dish} comments={comments} />;
         };
+
         const ContactPage = () => {return <Contact />}
 
         return (
@@ -60,8 +65,9 @@ class Main extends Component {
 
                 <Switch>
                     <Route path='/home' component={HomePage} />
+                    <Route path='/about' component={AboutPage} />
                     <Route exact path='/menu' component={MenuPage} />
-                    <Route path='/menu/:dishId' component={SelectedDish} />
+                    <Route path='/menu/:dishId' component={DishPage} />
                     <Route exact path='/contact' component={ContactPage} />
                     <Redirect to="/home" />
                 </Switch>

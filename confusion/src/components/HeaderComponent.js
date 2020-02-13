@@ -43,7 +43,7 @@ class Navigation extends Component {
                                 </NavItem>
         
                                 <NavItem>
-                                    <NavLink href="/aboutus">
+                                    <NavLink href="/about">
                                         <span className="fa fa-info fa-lg"></span>
                                         About
                                     </NavLink>
