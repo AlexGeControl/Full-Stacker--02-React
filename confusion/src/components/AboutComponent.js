@@ -80,37 +80,43 @@ function History() {
 
 function RenderLeader({leaders, title}) {
     return (
-        <div className="row row-content align-items-center">
-            <ul class="list-unstyled">
-                {
-                    leaders.map(
-                        (leader) => {
-                            return (
-                                <div className="col-12">
-                                    <Media>
-                                        <Media left middle>
-                                            <Media object className="d-flex mr-3 img-thumbnail align-self-center" src={leader.image} alt={leader.name} />
-                                        </Media>
-                                        <Media body>
-                                            <Media heading className="mt-0">
-                                                {leader.name}
-                                            </Media>
+        <div>
+            <div className="row row-content align-items-center">
+                <div className="col-12">
+                    <h3>{title}</h3>
+                </div>
 
-                                            <h5>
-                                                {leader.designation}
-                                            </h5>
-                                            
-                                            <p className="d-none d-sm-block">
-                                                {leader.description}
-                                            </p>
+                <ul class="list-unstyled mt-5">
+                    {
+                        leaders.map(
+                            (leader) => {
+                                return (
+                                    <div key={leader.id} className="col-12">
+                                        <Media>
+                                            <Media left middle>
+                                                <Media object className="d-flex mr-3 img-thumbnail align-self-center" src={leader.image} alt={leader.name} />
+                                            </Media>
+                                            <Media body>
+                                                <Media heading className="mt-0">
+                                                    {leader.name}
+                                                </Media>
+
+                                                <h5>
+                                                    {leader.designation}
+                                                </h5>
+
+                                                <p className="d-none d-sm-block">
+                                                    {leader.description}
+                                                </p>
+                                            </Media>
                                         </Media>
-                                    </Media>
-                                </div>
-                            );
-                        }
-                    )
-                }
-            </ul>
+                                    </div>
+                                );
+                            }
+                        )
+                    }
+                </ul>
+            </div>
         </div>
     );
 }
