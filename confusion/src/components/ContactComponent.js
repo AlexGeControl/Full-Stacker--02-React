@@ -4,6 +4,7 @@ import { Container } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { FormFeedback } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
 
@@ -99,9 +100,16 @@ class Contact extends Component {
             email: '',
 
             approved: false,
-            approach: '',
+            approach: 'E-Mail',
 
-            feedback: ''
+            feedback: '',
+
+            errors: {
+                firstname: '',
+                lastname: '',
+                email: '',
+                telnum: ''
+            }
         };
 
         this.onInputChage = this.onInputChage.bind(this)
@@ -114,13 +122,74 @@ class Contact extends Component {
         const name = target.name;
         const value = target.type === "checkbox" ? target.checked : target.value;
 
+        const validateField = ({name, value}) => {
+            const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/);
+            const validTelnumRegex = RegExp(/^\d+$/);
+    
+            let errors = this.state.errors;
+    
+            switch (name) {
+                case 'firstname':
+                    if (value.length < 3)
+                        errors.firstname = 'First Name should be more than 2 characters';
+                    else if (value.length > 9)
+                        errors.firstname = 'First Name should be less than 10 characters';
+                    else
+                        errors.firstname = '';
+                    break;
+                case 'lastname':
+                    if (value.length < 3)
+                        errors.lastname = 'Last Name should be more than 2 characters';
+                    else if (value.length > 9)
+                        errors.lastname = 'Last Name should be less than 10 characters';
+                    else
+                        errors.lastname = '';
+                    break;
+                case 'email':
+                    if (!validEmailRegex.test(value)) 
+                        errors.email = 'Invalid E-Mail address';
+                    else
+                        errors.email = '';
+                    break;
+                case 'telnum':
+                    if (!validTelnumRegex.test(value)) 
+                        errors.telnum = 'Tel. Number should contain only numbers';
+                    else 
+                        errors.telnum = '';
+                    break;
+                default:
+                    break;
+            }
+    
+            return errors;
+        }
+
+        let errors = validateField({ name: name, value: value });
+
         this.setState(
-            {[name]: value}
+            {
+                [name]: value,
+                errors: errors
+            }
         )
     }
 
     onSubmit(event) {
-        alert('[Contact Us Form State]: ' + JSON.stringify(this.state));
+        const validateForm = ({errors}) => {
+            let valid = true;
+
+            Object.values(errors).forEach(
+                (error) => {
+                    (error.length !== 0) && (valid = false)
+                }
+            )
+
+            return valid;
+        }
+
+        let valid = validateForm({errors: this.state.errors})
+        alert(valid ? 'Valid Form' : 'Invalid Form');
+        
         // prevent default behavior: form submit
         event.preventDefault();
     }
@@ -143,7 +212,10 @@ class Contact extends Component {
                                         type="text" name="firstname" id="firstname" placeholder="First Name"
                                         value={this.state.firstname}
                                         onChange={this.onInputChage}
+                                        valid={this.state.errors.firstname === ''}
+                                        invalid={this.state.errors.firstname !== ''}
                                     />
+                                    <FormFeedback>{this.state.errors.firstname}</FormFeedback>
                                 </div>
                             </div>
                         </FormGroup>
@@ -156,8 +228,11 @@ class Contact extends Component {
                                     <Input 
                                         type="text" name="lastname" id="lastname" placeholder="Last Name"
                                         value={this.state.lastname}
-                                        onChange={this.onInputChage} 
+                                        onChange={this.onInputChage}
+                                        valid={this.state.errors.lastname === ''}
+                                        invalid={this.state.errors.lastname !== ''} 
                                     />
+                                    <FormFeedback>{this.state.errors.lastname}</FormFeedback>
                                 </div>
                             </div>
                         </FormGroup>
@@ -178,7 +253,10 @@ class Contact extends Component {
                                         type="tel" name="telnum" id="telnum" placeholder="Tel. Number" 
                                         value={this.state.telnum}
                                         onChange={this.onInputChage}
+                                        valid={this.state.errors.telnum === ''}
+                                        invalid={this.state.errors.telnum !== ''} 
                                     />
+                                    <FormFeedback>{this.state.errors.telnum}</FormFeedback>
                                 </div>
                             </div>
                         </FormGroup>
@@ -192,7 +270,10 @@ class Contact extends Component {
                                         type="email" name="email" id="email" placeholder="E-Mail" 
                                         value={this.state.email}
                                         onChange={this.onInputChage}
+                                        valid={this.state.errors.email === ''}
+                                        invalid={this.state.errors.email !== ''} 
                                     />
+                                    <FormFeedback>{this.state.errors.email}</FormFeedback>
                                 </div>
                             </div>  
                         </FormGroup>
