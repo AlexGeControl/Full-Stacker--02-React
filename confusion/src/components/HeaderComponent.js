@@ -1,7 +1,9 @@
 import React, {Component } from 'react';
 
 import { Jumbotron, Container } from 'reactstrap';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, NavbarToggler, Collapse } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, NavbarToggler, Collapse } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
 
 /*
     nav-bar
@@ -11,14 +13,29 @@ class Navigation extends Component {
         super(props);
 
         this.state = {
-            collapsed: true
+            isNavCollapsed: true,
+            isLoginOpen: false
         };
     }
 
-    onToggle() {
+    onNavToggle() {
         this.setState(
-            { collapsed: !this.state.collapsed }
+            { isNavCollapsed: !this.state.isNavCollapsed }
         )
+    }
+
+    onLoginToggle() {
+        this.setState(
+            { isLoginOpen: !this.state.isLoginOpen }
+        )
+    }
+
+    onLogin = (event) => {
+        event.preventDefault();
+
+        console.log(
+            this.account
+        );
     }
 
     render() {
@@ -31,9 +48,9 @@ class Navigation extends Component {
                             Ristorante con Fusion
                         </NavbarBrand>
             
-                        <NavbarToggler onClick={() => {this.onToggle()}} />
+                        <NavbarToggler onClick={() => {this.onNavToggle()}} />
 
-                        <Collapse isOpen={!this.state.collapsed} navbar>
+                        <Collapse isOpen={!this.state.isNavCollapsed} navbar>
                             <Nav navbar>
                                 <NavItem>
                                     <NavLink href="/home">
@@ -63,8 +80,72 @@ class Navigation extends Component {
                                     </NavLink>
                                 </NavItem>
                             </Nav>
+
+                            <Nav className="ml-auto" navbar>
+                                <NavItem>
+                                    <Button outline onClick={() => this.onLoginToggle()}>
+                                        <span className="fa fa-sign-in fa-lg"></span>
+                                        Login
+                                    </Button>
+                                </NavItem>
+                            </Nav>
                         </Collapse>
                     </Container>
+
+                    <Modal isOpen={this.state.isLoginOpen} toggle={() => this.onLoginToggle()}>
+                        <ModalHeader toggle={() => this.onLoginToggle()} charCode="X">
+                            Login
+                        </ModalHeader>
+                        
+                        <ModalBody>
+                            <Form onSubmit={this.onLogin}>
+                                <div className="form-row align-items-center">
+                                    <div className="col-12 col-sm-4">
+                                        <FormGroup>
+                                            <Label className="sr-only" for="account">E-Mail</Label>
+                                            <Input 
+                                                type="email" id="account" name="account" placeholder="E-Mail" 
+                                                ref={(input) => {this.account = input}}
+                                            />
+                                        </FormGroup>
+                                    </div>
+                                    <div className="col-12 col-sm-4">
+                                        <FormGroup>
+                                            <Label className="sr-only" for="password">Password</Label>
+                                            <Input 
+                                                type="password" id="password" name="password" placeholder="Password" 
+                                            />
+                                        </FormGroup>
+                                    </div>
+                                    <div className="col-12 col-sm-auto">
+                                        <FormGroup check>
+                                            <Input 
+                                                type="checkbox" name="rememberme" id="rememberme"
+                                            />
+                                            <Label check for="rememberme">
+                                                <strong>Remember Me</strong>
+                                            </Label>
+                                        </FormGroup>
+                                    </div>
+                                </div>
+                                <div className="form-row">
+                                    <FormGroup>
+                                        <Button 
+                                            className="ml-auto" color="secondary" type="button" 
+                                            onClick={() => this.onLoginToggle()}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button 
+                                            className="ml-1" color="primary" type="submit" 
+                                        >
+                                            Login
+                                        </Button>
+                                    </FormGroup>
+                                </div>
+                            </Form>
+                        </ModalBody>
+                    </Modal>
                 </Navbar>
             </div>
         );
