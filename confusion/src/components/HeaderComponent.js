@@ -14,7 +14,11 @@ class Navigation extends Component {
 
         this.state = {
             isNavCollapsed: true,
-            isLoginOpen: false
+            isLoginOpen: false,
+
+            account: '',
+            password: '',
+            rememberme: false
         };
     }
 
@@ -30,12 +34,23 @@ class Navigation extends Component {
         )
     }
 
-    onLogin = (event) => {
-        event.preventDefault();
+    onInputChange(event) {
+        const target = event.target;
 
-        console.log(
-            this.account
+        const name = target.name;
+        const value = target.type === "checkbox" ? target.checked : target.value;  
+        
+        this.setState(
+            {[name]: value}
+        )
+    } 
+
+    onLogin(event) {
+        alert(
+            "[Account]: " + this.state.account
         );
+
+        event.preventDefault();
     }
 
     render() {
@@ -98,14 +113,15 @@ class Navigation extends Component {
                         </ModalHeader>
                         
                         <ModalBody>
-                            <Form onSubmit={this.onLogin}>
+                            <Form onSubmit={(event) => this.onLogin(event)}>
                                 <div className="form-row align-items-center">
                                     <div className="col-12 col-sm-4">
                                         <FormGroup>
                                             <Label className="sr-only" for="account">E-Mail</Label>
                                             <Input 
                                                 type="email" id="account" name="account" placeholder="E-Mail" 
-                                                ref={(input) => {this.account = input}}
+                                                value={this.state.account}
+                                                onChange={(event) => this.onInputChange(event)}
                                             />
                                         </FormGroup>
                                     </div>
@@ -114,6 +130,8 @@ class Navigation extends Component {
                                             <Label className="sr-only" for="password">Password</Label>
                                             <Input 
                                                 type="password" id="password" name="password" placeholder="Password" 
+                                                value={this.state.password}
+                                                onChange={(event) => this.onInputChange(event)}
                                             />
                                         </FormGroup>
                                     </div>
@@ -121,6 +139,8 @@ class Navigation extends Component {
                                         <FormGroup check>
                                             <Input 
                                                 type="checkbox" name="rememberme" id="rememberme"
+                                                checked={this.state.rememberme}
+                                                onChange={(event) => this.onInputChange(event)}
                                             />
                                             <Label check for="rememberme">
                                                 <strong>Remember Me</strong>
