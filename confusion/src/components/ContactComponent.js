@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { LocalForm, Control } from 'react-redux-form';
+
 import { Container } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
@@ -201,19 +203,20 @@ class Contact extends Component {
                     <h3>Send us your Feedback</h3>
                 </div>
                 <div className="col-12 col-md-9 mt-5">
-                    <Form onSubmit={this.onSubmit}>
+                    <LocalForm onSubmit={
+                        (values) => {
+                            console.log(values);
+                        }
+                    }>
                         <FormGroup>
                             <div className="row align-items-center">
                                 <div className="col-12 col-md-2">
                                     <Label for="firstname">First Name</Label>
                                 </div>
                                 <div className="col-md-10">
-                                    <Input 
-                                        type="text" name="firstname" id="firstname" placeholder="First Name"
-                                        value={this.state.firstname}
-                                        onChange={this.onInputChage}
-                                        valid={this.state.errors.firstname === ''}
-                                        invalid={this.state.errors.firstname !== ''}
+                                    <Control.text model=".firstname" id="firstname"
+                                        name="firstname" placeholder="First Name"
+                                        className="form-control"
                                     />
                                     <FormFeedback>{this.state.errors.firstname}</FormFeedback>
                                 </div>
@@ -225,12 +228,9 @@ class Contact extends Component {
                                     <Label for="lastname">Last Name</Label>
                                 </div>
                                 <div className="col-md-10">
-                                    <Input 
-                                        type="text" name="lastname" id="lastname" placeholder="Last Name"
-                                        value={this.state.lastname}
-                                        onChange={this.onInputChage}
-                                        valid={this.state.errors.lastname === ''}
-                                        invalid={this.state.errors.lastname !== ''} 
+                                    <Control.text model=".lastname" id="lastname"
+                                        name="lastname"  placeholder="Last Name"
+                                        className="form-control"
                                     />
                                     <FormFeedback>{this.state.errors.lastname}</FormFeedback>
                                 </div>
@@ -242,19 +242,15 @@ class Contact extends Component {
                                     <Label for="telnum">Contact</Label>
                                 </div>
                                 <div className="col-5 col-md-3">
-                                    <Input 
-                                        type="tel" name="areacode" id="areacode" placeholder="Area Code" 
-                                        value={this.state.areacode}
-                                        onChange={this.onInputChage}
+                                    <Control.text model=".areacode" id="areacode" 
+                                        name="areacode" placeholder="Area Code" 
+                                        className="form-control"
                                     />
                                 </div>
                                 <div className="col-7 col-md-7">
-                                    <Input 
-                                        type="tel" name="telnum" id="telnum" placeholder="Tel. Number" 
-                                        value={this.state.telnum}
-                                        onChange={this.onInputChage}
-                                        valid={this.state.errors.telnum === ''}
-                                        invalid={this.state.errors.telnum !== ''} 
+                                    <Control.text model=".telnum" id="telnum"
+                                        name="telnum" placeholder="Tel. Number"
+                                        className="form-control"
                                     />
                                     <FormFeedback>{this.state.errors.telnum}</FormFeedback>
                                 </div>
@@ -266,12 +262,9 @@ class Contact extends Component {
                                     <Label for="telnum">Contact</Label>
                                 </div>
                                 <div className="col-12 col-md-10">
-                                    <Input 
-                                        type="email" name="email" id="email" placeholder="E-Mail" 
-                                        value={this.state.email}
-                                        onChange={this.onInputChage}
-                                        valid={this.state.errors.email === ''}
-                                        invalid={this.state.errors.email !== ''} 
+                                    <Control.text model=".email" id="email" 
+                                        name="email" placeholder="E-Mail"
+                                        className="form-control"
                                     />
                                     <FormFeedback>{this.state.errors.email}</FormFeedback>
                                 </div>
@@ -281,10 +274,9 @@ class Contact extends Component {
                             <div className="row align-items-center">
                                 <div className="col-md-6 offset-md-2">
                                     <FormGroup check>
-                                        <Input 
-                                            type="checkbox" name="approved" id="approved" value="" 
-                                            checked={this.state.approved}
-                                            onChange={this.onInputChage}
+                                        <Control.checkbox model=".approved" id="approved" 
+                                            name="approved"
+                                            className="form-check-input"
                                         />
                                         <Label check for="approved">
                                             <strong>May We Contact You?</strong>
@@ -293,14 +285,13 @@ class Contact extends Component {
                                 </div>
                                 <div className="col-md-3 offset-md-1">
                                     <FormGroup>
-                                        <Input 
-                                            type="select" name="approach" id="approach"
-                                            value={this.state.approach}
-                                            onChange={this.onInputChage}
+                                        <Control.select model=".approach" id="approach"
+                                            name="approach" id="approach"
+                                            className="form-control"
                                         >
                                             <option>Tel. Number</option>
                                             <option>E-Mail</option>
-                                        </Input>
+                                        </Control.select>
                                     </FormGroup>
                                 </div>
                             </div>
@@ -311,10 +302,9 @@ class Contact extends Component {
                                     <Label for="feedback">Your Feedback</Label>
                                 </div>
                                 <div className="col-12 col-md-10">
-                                    <Input 
-                                        type="textarea" id="feedback" name="feedback" rows="12" 
-                                        value={this.state.feedback}
-                                        onChange={this.onInputChage}
+                                    <Control.textarea model=".feedback" id="feedback" 
+                                        name="feedback" rows="12"
+                                        className="form-control" 
                                     />
                                 </div>
                             </div>
@@ -326,7 +316,7 @@ class Contact extends Component {
                                 </div>
                             </div>
                         </FormGroup>
-                    </Form>
+                    </LocalForm>
                 </div>
             </div>
         );
