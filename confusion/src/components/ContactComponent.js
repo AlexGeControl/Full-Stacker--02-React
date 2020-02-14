@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { LocalForm, Control } from 'react-redux-form';
+import { LocalForm, Control, Errors} from 'react-redux-form';
 
 import { Container } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
@@ -104,99 +104,18 @@ class Contact extends Component {
             approved: false,
             approach: 'E-Mail',
 
-            feedback: '',
-
-            errors: {
-                firstname: '',
-                lastname: '',
-                email: '',
-                telnum: ''
-            }
+            feedback: ''
         };
-
-        this.onInputChage = this.onInputChage.bind(this)
-        this.onSubmit = this.onSubmit.bind(this)
-    }
-
-    onInputChage(event) {
-        const target = event.target;
-
-        const name = target.name;
-        const value = target.type === "checkbox" ? target.checked : target.value;
-
-        const validateField = ({name, value}) => {
-            const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/);
-            const validTelnumRegex = RegExp(/^\d+$/);
-    
-            let errors = this.state.errors;
-    
-            switch (name) {
-                case 'firstname':
-                    if (value.length < 3)
-                        errors.firstname = 'First Name should be more than 2 characters';
-                    else if (value.length > 9)
-                        errors.firstname = 'First Name should be less than 10 characters';
-                    else
-                        errors.firstname = '';
-                    break;
-                case 'lastname':
-                    if (value.length < 3)
-                        errors.lastname = 'Last Name should be more than 2 characters';
-                    else if (value.length > 9)
-                        errors.lastname = 'Last Name should be less than 10 characters';
-                    else
-                        errors.lastname = '';
-                    break;
-                case 'email':
-                    if (!validEmailRegex.test(value)) 
-                        errors.email = 'Invalid E-Mail address';
-                    else
-                        errors.email = '';
-                    break;
-                case 'telnum':
-                    if (!validTelnumRegex.test(value)) 
-                        errors.telnum = 'Tel. Number should contain only numbers';
-                    else 
-                        errors.telnum = '';
-                    break;
-                default:
-                    break;
-            }
-    
-            return errors;
-        }
-
-        let errors = validateField({ name: name, value: value });
-
-        this.setState(
-            {
-                [name]: value,
-                errors: errors
-            }
-        )
-    }
-
-    onSubmit(event) {
-        const validateForm = ({errors}) => {
-            let valid = true;
-
-            Object.values(errors).forEach(
-                (error) => {
-                    (error.length !== 0) && (valid = false)
-                }
-            )
-
-            return valid;
-        }
-
-        let valid = validateForm({errors: this.state.errors})
-        alert(valid ? 'Valid Form' : 'Invalid Form');
-        
-        // prevent default behavior: form submit
-        event.preventDefault();
     }
 
     FeedbackForm() {
+        // validators:
+        const required = (value) => value && value.length;
+        const minLength = (len) => (value) => (!value) || (value.length >= len);
+        const maxLength = (len) => (value) => value && (value.length <= len);
+        const validTelNum = (value) => RegExp(/^\d+$/).test(value);
+        const validEmail = (value) => RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/).test(value);
+
         return (
             <div className="row row-content">
                 <div className="col-12">
@@ -214,11 +133,27 @@ class Contact extends Component {
                                     <Label for="firstname">First Name</Label>
                                 </div>
                                 <div className="col-md-10">
-                                    <Control.text model=".firstname" id="firstname"
+                                    <Control.text className="form-control"
+                                        model=".firstname" id="firstname"
                                         name="firstname" placeholder="First Name"
-                                        className="form-control"
+                                        validators={
+                                            {
+                                                required: required,
+                                                minLength: minLength(3),
+                                                maxLength: maxLength(10)
+                                            }
+                                        }
                                     />
-                                    <FormFeedback>{this.state.errors.firstname}</FormFeedback>
+                                    <Errors className="text-danger"
+                                        model=".firstname" show="touched"
+                                        messages={
+                                            {
+                                                required: 'Required',
+                                                minLength: 'First Name should be more than 2 characters',
+                                                maxLength: 'First Name should be no more than 10 characters'
+                                            }
+                                        }
+                                     />
                                 </div>
                             </div>
                         </FormGroup>
@@ -228,11 +163,27 @@ class Contact extends Component {
                                     <Label for="lastname">Last Name</Label>
                                 </div>
                                 <div className="col-md-10">
-                                    <Control.text model=".lastname" id="lastname"
+                                    <Control.text className="form-control"
+                                        model=".lastname" id="lastname"
                                         name="lastname"  placeholder="Last Name"
-                                        className="form-control"
+                                        validators={
+                                            {
+                                                required: required,
+                                                minLength: minLength(3),
+                                                maxLength: maxLength(10)
+                                            }
+                                        }
                                     />
-                                    <FormFeedback>{this.state.errors.lastname}</FormFeedback>
+                                    <Errors className="text-danger"
+                                        model=".lastname" show="touched"
+                                        messages={
+                                            {
+                                                required: 'Required',
+                                                minLength: 'Last Name should be more than 2 characters',
+                                                maxLength: 'Last Name should be no more than 10 characters'
+                                            }
+                                        }
+                                     />
                                 </div>
                             </div>
                         </FormGroup>
@@ -242,17 +193,46 @@ class Contact extends Component {
                                     <Label for="telnum">Contact</Label>
                                 </div>
                                 <div className="col-5 col-md-3">
-                                    <Control.text model=".areacode" id="areacode" 
+                                    <Control.text className="form-control"
+                                        model=".areacode" id="areacode" 
                                         name="areacode" placeholder="Area Code" 
-                                        className="form-control"
+                                        validators={
+                                            {
+                                                required: required,
+                                                validTelNum: validTelNum
+                                            }
+                                        }                                        
                                     />
+                                    <Errors className="text-danger"
+                                        model=".areacode" show="touched"
+                                        messages={
+                                            {
+                                                required: 'Required',
+                                                validTelNum: 'Invalid'
+                                            }
+                                        }
+                                     />
                                 </div>
                                 <div className="col-7 col-md-7">
-                                    <Control.text model=".telnum" id="telnum"
+                                    <Control.text className="form-control"
+                                        model=".telnum" id="telnum"
                                         name="telnum" placeholder="Tel. Number"
-                                        className="form-control"
+                                        validators={
+                                            {
+                                                required: required,
+                                                validTelNum: validTelNum
+                                            }
+                                        }                                           
                                     />
-                                    <FormFeedback>{this.state.errors.telnum}</FormFeedback>
+                                    <Errors className="text-danger"
+                                        model=".telnum" show="touched"
+                                        messages={
+                                            {
+                                                required: 'Required',
+                                                validTelNum: 'Invalid'
+                                            }
+                                        }
+                                    />
                                 </div>
                             </div>
                         </FormGroup>
@@ -262,11 +242,25 @@ class Contact extends Component {
                                     <Label for="telnum">Contact</Label>
                                 </div>
                                 <div className="col-12 col-md-10">
-                                    <Control.text model=".email" id="email" 
+                                    <Control.text className="form-control"
+                                        model=".email" id="email" 
                                         name="email" placeholder="E-Mail"
-                                        className="form-control"
+                                        validators={
+                                            {
+                                                required: required,
+                                                validEmail: validEmail
+                                            }
+                                        }                                         
                                     />
-                                    <FormFeedback>{this.state.errors.email}</FormFeedback>
+                                    <Errors className="text-danger"
+                                        model=".email" show="touched"
+                                        messages={
+                                            {
+                                                required: 'Required',
+                                                validEmail: 'Invalid E-Mail'
+                                            }
+                                        }
+                                    />
                                 </div>
                             </div>  
                         </FormGroup>
