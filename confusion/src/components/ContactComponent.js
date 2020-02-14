@@ -5,8 +5,7 @@ import { LocalForm, Control, Errors} from 'react-redux-form';
 import { Container } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
-import { FormFeedback } from 'reactstrap';
+import { FormGroup, Label } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
 
