@@ -6,6 +6,8 @@ import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
 
+import { Loading } from './LoadingComponent';
+
 function Navigation() {
     return (
         <div className="row">
@@ -52,23 +54,44 @@ function RenderMenuItem({dish}) {
 }
 
 const Menu = (props) => {
-    const menu = props.dishes.map(
-        (dish) => {
+    const RenderMenu = (props) => {
+        if (props.errMsgs) 
             return (
-                <div key={dish.id} className="col-12 col-md-5 m-1">
-                    <RenderMenuItem dish={dish} />
+                <div className="row row-content justify-content-center">
+                    <h4>{props.errMsgs}</h4>
                 </div>
             );
-        }
-    );
+        else if (props.isLoading)
+            return (
+                <div className="row row-content justify-content-center">
+                    <Loading />
+                </div>
+            );
+        else if (props.dishes.length === 0 ) 
+            return <div></div>;
+
+        const menu = props.dishes.map(
+            (dish) => {
+                return (
+                    <div key={dish.id} className="col-12 col-md-5 m-1">
+                        <RenderMenuItem dish={dish} />
+                    </div>
+                );
+            }
+        );
+
+        return (
+            <div className="row justify-content-center">
+                {menu}
+            </div>
+        );
+    }
 
     return (
         <Container>
             <Navigation />
 
-            <div className="row justify-content-center">
-                {menu}
-            </div>
+            <RenderMenu {...props} />
         </Container>
     );
 }

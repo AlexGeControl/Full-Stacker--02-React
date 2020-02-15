@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import * as CommentCreators from '../redux/action/comments/Creators';
+import * as ActionCreators from '../redux/ActionCreators';
 
 import Header from './HeaderComponent';
 
@@ -29,58 +29,75 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addComment: (dishId, rating, author, comment) => dispatch(
-            CommentCreators.addComment(dishId, rating, author, comment)
-        )
+            ActionCreators.addComment(dishId, rating, author, comment)
+        ),
+        fetchDishes: () => dispatch(ActionCreators.fetchDishes())
     };
 }
 
-const Main = (props) => {        
-    const HomePage = () => {
-        const dish = props.dishes.find((dish) => dish.featured);
-        const promotion = props.promotions.find((promotion) => promotion.featured);
-        const leader = props.leaders.find((leader) => leader.featured);
-
-        return <Home dish={dish} promotion={promotion} leader={leader} />;
-    };
-
-    const AboutPage = () => {
-        return <About leaders={props.leaders} />;
+class Main extends Component {
+    componentDidMount() {
+        this.props.fetchDishes();
     }
 
-    const MenuPage = () => {return <Menu dishes={props.dishes} />}
-    const DishPage = ({match}) => {
-        // parse dish id as int:
-        const dishId = parseInt(match.params.dishId, 10);
-        
-        // identify dish and comments:
-        const dish = props.dishes.find((dish) => dish.id === dishId);
-        const comments = props.comments.filter((comment) => comment.dishId === dishId);
+    render() {
+        const HomePage = () => {
+            const dish = this.props.dishes.data.find((dish) => dish.featured);
+            const promotion = this.props.promotions.find((promotion) => promotion.featured);
+            const leader = this.props.leaders.find((leader) => leader.featured);
+    
+            return <Home 
+                dish={dish} dishIsLoading={this.props.dishes.isLoading} dishErrMsgs={this.props.dishes.errMsgs}
+                promotion={promotion} 
+                leader={leader}
+            />;
+        };
+    
+        const AboutPage = () => {
+            return <About leaders={this.props.leaders} />;
+        };
+    
+        const MenuPage = () => {
+            return <Menu 
+                dishes={this.props.dishes.data}
+                isLoading={this.props.dishes.isLoading} errMsgs={this.props.dishes.errMsgs} 
+            />
+        };
 
-        return <DishDetails 
-                    dish={dish} comments={comments} 
-                    addComment={props.addComment}
-                />;
-    };
-
-    const ContactPage = () => {return <Contact />}
-
-    return (
-        <div>                
-            <Header />
-
-            <Switch>
-                <Route path='/home' component={HomePage} />
-                <Route path='/about' component={AboutPage} />
-                <Route exact path='/menu' component={MenuPage} />
-                <Route path='/menu/:dishId' component={DishPage} />
-                <Route exact path='/contact' component={ContactPage} />
-                <Redirect to="/home" />
-            </Switch>
+        const DishPage = ({match}) => {
+            // parse dish id as int:
+            const dishId = parseInt(match.params.dishId, 10);
             
+            // identify dish and comments:
+            const dish = this.props.dishes.data.find((dish) => dish.id === dishId);
+            const comments = this.props.comments.filter((comment) => comment.dishId === dishId);
+    
+            return <DishDetails 
+                dish={dish} dishIsLoading={this.props.dishes.isLoading} dishErrMsgs={this.props.dishes.errMsgs}
+                comments={comments} addComment={this.props.addComment}
+            />;
+        };
+    
+        const ContactPage = () => {return <Contact />}
+    
+        return (
+            <div>                
+                <Header />
+    
+                <Switch>
+                    <Route path='/home' component={HomePage} />
+                    <Route path='/about' component={AboutPage} />
+                    <Route exact path='/menu' component={MenuPage} />
+                    <Route path='/menu/:dishId' component={DishPage} />
+                    <Route exact path='/contact' component={ContactPage} />
+                    <Redirect to="/home" />
+                </Switch>
                 
-            <Footer />
-        </div>
-    );
+                    
+                <Footer />
+            </div>
+        );
+    }
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

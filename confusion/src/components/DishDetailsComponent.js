@@ -10,7 +10,11 @@ import { LocalForm, Control, Errors } from 'react-redux-form';
 
 import { Link } from 'react-router-dom';
 
+import { Loading } from './LoadingComponent';
+
 function Navigation({dish}) {
+    const title = dish === undefined ? "Loading..." : dish.name;
+
     return (
         <div className="row">
             <div className="col-12">
@@ -19,12 +23,12 @@ function Navigation({dish}) {
                         <Link to="/menu">Menu</Link>
                     </BreadcrumbItem>
                     <BreadcrumbItem active>
-                        <Link to="#">{dish.name}</Link>
+                        <Link to="#">{title}</Link>
                     </BreadcrumbItem>
                 </Breadcrumb>
             </div>
             <div className="col-12">
-                <h3>{dish.name}</h3>
+                <h3>{title}</h3>
                 <hr />
             </div>
         </div>
@@ -32,12 +36,6 @@ function Navigation({dish}) {
 }
 
 function Overview({dish}) {
-    if (dish === undefined) {
-        return (
-            <div></div>
-        );
-    }
-
     return (
         <div className="col-12 col-md-5 m-1">
             <Card>
@@ -253,8 +251,40 @@ function Comments({comments, dishId, addComment}) {
 
 const DishDetails = (props) => {
     const dish = props.dish;
+    const isLoading = props.dishIsLoading;
+    const errMsgs = props.dishErrMsgs;
     const comments = props.comments;
     const addComment = props.addComment;
+
+    if (errMsgs) 
+        return (
+            <Container>
+                <Navigation dish={dish} />
+
+                <div className="row row-content justify-content-center">
+                    <h4>{props.errMsgs}</h4>
+                </div>
+            </Container>
+        );
+    else if (isLoading)
+        return (
+            <Container>
+                <Navigation dish={dish} />
+
+                <div className="row row-content justify-content-center">
+                    <Loading />
+                </div>
+            </Container>
+        );
+    else if (dish === undefined) {
+        return (
+            <Container>
+                <Navigation dish={dish} />
+
+                <div></div>
+            </Container>
+        );
+    }
 
     return (
         <Container>
