@@ -1,7 +1,7 @@
 version: "3.4"
 
 services:
-  node:
+  frontend:
     image: "node:8"
     # switch to root if global installation is needed:
     user: "root"
