@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { LocalForm, Control, Errors} from 'react-redux-form';
+import { Form, Control, Errors} from 'react-redux-form';
 
 import { Container } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
@@ -87,33 +87,23 @@ function Methods() {
     );
 }
 
-class Contact extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            firstname: '',
-            lastname: '',
-
-            areacode: '',
-            telnum: '',
-
-            email: '',
-
-            approved: false,
-            approach: 'E-Mail',
-
-            feedback: ''
-        };
-    }
-
-    FeedbackForm() {
+function Contact(props) {
+    const FeedbackForm = () => {
         // validators:
         const required = (value) => value && value.length;
         const minLength = (len) => (value) => (!value) || (value.length >= len);
         const maxLength = (len) => (value) => value && (value.length <= len);
         const validTelNum = (value) => RegExp(/^\d+$/).test(value);
         const validEmail = (value) => RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/).test(value);
+        
+        // on submit:
+        const onSubmit = (values) => {
+            // TODO: push inputs to server
+            alert(JSON.stringify(values));
+
+            // reset values:
+            props.resetFeedbackForm();
+        }
 
         return (
             <div className="row row-content">
@@ -121,11 +111,10 @@ class Contact extends Component {
                     <h3>Send us your Feedback</h3>
                 </div>
                 <div className="col-12 col-md-9 mt-5">
-                    <LocalForm onSubmit={
-                        (values) => {
-                            console.log(values);
-                        }
-                    }>
+                    <Form 
+                        model="feedback"
+                        onSubmit={(values) => onSubmit(values)}
+                    >
                         <FormGroup>
                             <div className="row align-items-center">
                                 <div className="col-12 col-md-2">
@@ -309,25 +298,23 @@ class Contact extends Component {
                                 </div>
                             </div>
                         </FormGroup>
-                    </LocalForm>
+                    </Form>
                 </div>
             </div>
         );
     }
 
-    render() {
-        return (
-            <Container>
-                <Navigation />
+    return (
+        <Container>
+            <Navigation />
 
-                <AddressInfo />
+            <AddressInfo />
 
-                <Methods />
+            <Methods />
 
-                {this.FeedbackForm()}
-            </Container>
-        );
-    }
+            <FeedbackForm />
+        </Container>
+    );
 }
 
 export default Contact;

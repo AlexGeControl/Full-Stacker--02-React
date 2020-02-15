@@ -4,6 +4,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as ActionCreators from '../redux/ActionCreators';
+import { actions } from 'react-redux-form';
 
 import Header from './HeaderComponent';
 
@@ -28,10 +29,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        fetchDishes: () => dispatch(ActionCreators.fetchDishes()),
+
         addComment: (dishId, rating, author, comment) => dispatch(
             ActionCreators.addComment(dishId, rating, author, comment)
         ),
-        fetchDishes: () => dispatch(ActionCreators.fetchDishes())
+
+        resetFeedbackForm: () => dispatch(actions.reset('feedback')),
     };
 }
 
@@ -78,7 +82,7 @@ class Main extends Component {
             />;
         };
     
-        const ContactPage = () => {return <Contact />}
+        const ContactPage = () => {return <Contact resetFeedbackForm={this.props.resetFeedbackForm} />}
     
         return (
             <div>                
