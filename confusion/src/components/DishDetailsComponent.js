@@ -106,6 +106,8 @@ class CommentForm extends Component {
 
     onCommentSubmit(values) {
         alert("[Comment]: " + JSON.stringify(values));
+
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment)
     }
 
     render() {
@@ -145,12 +147,12 @@ class CommentForm extends Component {
                                 <FormGroup>
                                     <div className="row align-items-center">
                                         <div className="col-12">
-                                            <Label for="name">Your Name</Label>
+                                            <Label for="author">Your Name</Label>
                                         </div>
                                         <div className="col-12">
                                             <Control.text className="form-control"
-                                                model=".name" id="name"
-                                                name="name" placeholder="Your Name"
+                                                model=".author" id="author"
+                                                name="author" placeholder="Your Name"
                                                 validators={
                                                     {
                                                         required: required,
@@ -160,7 +162,7 @@ class CommentForm extends Component {
                                                 }
                                             />
                                             <Errors className="text-danger"
-                                                model=".name" show="touched"
+                                                model=".author" show="touched"
                                                 messages={
                                                     {
                                                         required: 'Required',
@@ -215,7 +217,7 @@ class CommentForm extends Component {
     }
 }
 
-function Comments({comments}) {
+function Comments({comments, dishId, addComment}) {
     if (comments === undefined) {
         return (
             <div></div>
@@ -244,7 +246,7 @@ function Comments({comments}) {
                 </ListGroup>
             </Row>
 
-            <CommentForm />
+            <CommentForm dishId={dishId} addComment={addComment} />
         </div>
     );
 } 
@@ -252,6 +254,7 @@ function Comments({comments}) {
 const DishDetails = (props) => {
     const dish = props.dish;
     const comments = props.comments;
+    const addComment = props.addComment;
 
     return (
         <Container>
@@ -259,7 +262,7 @@ const DishDetails = (props) => {
 
             <div className="row">
                 <Overview dish={dish} />
-                <Comments comments={comments} />
+                <Comments comments={comments} dishId={dish.id} addComment={addComment} />
             </div>
         </Container>
     );
