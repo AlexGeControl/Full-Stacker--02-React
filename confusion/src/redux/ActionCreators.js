@@ -41,9 +41,30 @@ export const fetchComments = () => (
 
         // provide data after 2 seconds:
         fetch(urljoin(baseUrl, 'comments'))
+            .then(
+                // response:
+                response => {
+                    if (response.ok) {
+                        return response;
+                    } else {
+                        let error = new Error('[Error] ' + response.status + ': ' + response.statusText);
+                        error.response = response;
+
+                        throw error;
+                    }
+                },
+                // rejected:
+                rejection => {
+                    let error = new Error(rejection.message);
+                    throw error;
+                }
+            )
             .then(response => response.json())
             .then(
                 comments => dispatch(readComments(comments))
+            )
+            .catch(
+                error => dispatch(commentsFailed(error.message))
             )
     }
 );
@@ -73,9 +94,30 @@ export const fetchDishes = () => (
 
         // provide data after 2 seconds:
         fetch(urljoin(baseUrl, 'dishes'))
+            .then(
+                // response:
+                response => {
+                    if (response.ok) {
+                        return response;
+                    } else {
+                        let error = new Error('[Error] ' + response.status + ': ' + response.statusText);
+                        error.response = response;
+
+                        throw error;
+                    }
+                },
+                // rejected:
+                rejection => {
+                    let error = new Error(rejection.message);
+                    throw error;
+                }                
+            )
             .then(response => response.json())
             .then(
                 dishes => dispatch(readDishes(dishes))
+            )
+            .catch(
+                error => dispatch(dishesFailed(error.message))
             )
     }
 );
@@ -105,9 +147,30 @@ export const fetchLeaders = () => (
 
         // provide data after 2 seconds:
         fetch(urljoin(baseUrl, 'leaders'))
+            .then(
+                // response:
+                response => {
+                    if (response.ok) {
+                        return response;
+                    } else {
+                        let error = new Error('[Error] ' + response.status + ': ' + response.statusText);
+                        error.response = response;
+
+                        throw error;
+                    }
+                },
+                // rejected:
+                rejection => {
+                    let error = new Error(rejection.message);
+                    throw error;
+                }
+            )
             .then(response => response.json())
             .then(
                 leaders => dispatch(readLeaders(leaders))
+            )
+            .catch(
+                error => dispatch(leadersFailed(error.message))
             )
     }
 );
@@ -137,9 +200,30 @@ export const fetchPromotions = () => (
 
         // provide data after 2 seconds:
         fetch(urljoin(baseUrl, 'promotions'))
+            .then(
+                // response:
+                response => {
+                    if (response.ok) {
+                        return response;
+                    } else {
+                        let error = new Error('[Error] ' + response.status + ': ' + response.statusText);
+                        error.response = response;
+
+                        throw error;
+                    }
+                },
+                // rejected:
+                rejection => {
+                    let error = new Error(rejection.message);
+                    throw error;
+                }
+            )
             .then(response => response.json())
             .then(
                 promotions => dispatch(readPromotions(promotions))
+            )
+            .catch(
+                error => dispatch(promotionsFailed(error.message))
             )
     }
 );
