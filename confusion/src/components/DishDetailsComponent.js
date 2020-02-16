@@ -110,7 +110,7 @@ class CommentForm extends Component {
     }
 
     onCommentSubmit(values) {
-        this.props.createComment(
+        this.props.postComment(
             this.props.dishId, values.rating, values.author, values.comment
         );
     }
@@ -222,7 +222,7 @@ class CommentForm extends Component {
     }
 }
 
-function Comments({comments, dishId, createComment}) {
+function Comments({comments, dishId, postComment}) {
     if (comments === undefined) {
         return (
             <div></div>
@@ -251,7 +251,7 @@ function Comments({comments, dishId, createComment}) {
                 </ListGroup>
             </Row>
 
-            <CommentForm dishId={dishId} createComment={createComment} />
+            <CommentForm dishId={dishId} postComment={postComment} />
         </div>
     );
 } 
@@ -261,7 +261,7 @@ const DishDetails = (props) => {
     const isLoading = props.dishIsLoading;
     const errMsgs = props.dishErrMsgs;
     const comments = props.comments;
-    const createComment = props.createComment;
+    const postComment = props.postComment;
 
     if (errMsgs) 
         return (
@@ -299,7 +299,7 @@ const DishDetails = (props) => {
 
             <div className="row">
                 <Overview dish={dish} />
-                <Comments comments={comments} dishId={dish.id} createComment={createComment} />
+                <Comments comments={comments} dishId={dish.id} postComment={postComment} />
             </div>
         </Container>
     );

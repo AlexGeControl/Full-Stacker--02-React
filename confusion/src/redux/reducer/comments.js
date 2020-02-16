@@ -13,9 +13,6 @@ const Comments = (
         {
             let newComment = action.payload;
 
-            newComment.id = state.length;
-            newComment.date = new Date().toISOString();
-
             let newState = {
                 data: state.data.concat(newComment),
                 isLoading: false,

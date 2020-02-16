@@ -34,8 +34,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchLeaders: () => dispatch(ActionCreators.fetchLeaders()),
         fetchPromotions: () => dispatch(ActionCreators.fetchPromotions()),
 
-        createComment: (dishId, rating, author, comment) => dispatch(
-            ActionCreators.createComment(dishId, rating, author, comment)
+        postComment: (dishId, rating, author, comment) => dispatch(
+            ActionCreators.postComment(dishId, rating, author, comment)
         ),
 
         resetFeedbackForm: () => dispatch(actions.reset('feedback')),
@@ -88,7 +88,7 @@ class Main extends Component {
             return <DishDetails 
                 dish={dish} dishIsLoading={this.props.dishes.isLoading} dishErrMsgs={this.props.dishes.errMsgs}
                 comments={comments} dishIsLoading={this.props.comments.isLoading} dishErrMsgs={this.props.comments.errMsgs}
-                createComment={this.props.createComment}
+                postComment={this.props.postComment}
             />;
         };
     

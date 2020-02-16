@@ -1,3 +1,5 @@
+import { baseUrl } from '../shared/baseUrl';
+
 import React, {Component } from 'react';
 
 import { Jumbotron, Container } from 'reactstrap';
@@ -54,12 +56,14 @@ class Navigation extends Component {
     }
 
     render() {
+        const urljoin = require('url-join');
+        
         return (
             <div>
                 <Navbar dark className="navbar-expand-sm fixed-top">
                     <Container>
                         <NavbarBrand className="mr-auto" href="/" >
-                            <img className="img-responsive" src="assets/images/logo.png" alt="logo" height="30" width="41"/>
+                            <img className="img-responsive" src={urljoin(baseUrl, "images/logo.png")} alt="logo" height="30" width="41"/>
                             Ristorante con Fusion
                         </NavbarBrand>
             
@@ -173,6 +177,8 @@ class Navigation extends Component {
 }
 
 function Jumbo() {
+    const urljoin = require('url-join');
+
     return (
         <div>
             <Jumbotron>
@@ -183,7 +189,7 @@ function Jumbo() {
                             <p className="lead">We take inspiration from the World's best cuisines, and create a unique fusion experience. Our lipsmacking creations will tickle your culinary senses!</p>
                         </div>
                         <div className="col-12 col-sm">
-                            <img className="img-responsive" src="assets/images/logo.png" alt="logo"/>
+                            <img className="img-responsive" src={urljoin(baseUrl, "images/logo.png")} alt="logo"/>
                         </div>
                     </div>
                 </Container>

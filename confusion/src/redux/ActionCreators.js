@@ -16,15 +16,10 @@ export const commentsFailed = (errMsgs) => (
     }
 );
 
-export const createComment = (dishId, rating, author, comment) => {
+export const createComment = (comment) => {
     return {
         type: Types.COMMENTS_CREATE,
-        payload: {
-            dishId: dishId, 
-            rating: rating,
-            author: author, 
-            comment: comment
-        }
+        payload: comment
     };
 };
 export const readComments = (comments) => {
@@ -68,6 +63,56 @@ export const fetchComments = () => (
             )
     }
 );
+
+export const postComment = (dishId, rating, author, comment) => (
+    (dispatch) => {
+        const newComment = {
+            dishId: dishId, 
+            rating: rating,
+            author: author, 
+            comment: comment
+        };
+        newComment.date = new Date().toISOString();
+
+        fetch(
+            urljoin(baseUrl, 'comments'),
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newComment),
+                credentials: "same-origin"
+            }
+        )
+        .then(
+            // response:
+            response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    let error = new Error('[Error] ' + response.status + ': ' + response.statusText);
+                    error.response = response;
+
+                    throw error;
+                }
+
+            },
+            // rejected:
+            rejection => {
+                let error = new Error(rejection.message);
+                throw error;
+            }
+        )
+        .then(response => response.json())
+        .then(comment => dispatch(createComment(comment)))
+        .catch(
+            error => {
+                alert('Your comment cannot be uploaded ' + error.message);
+            }
+        )
+    }
+)
 
 // dishes:
 export const dishesLoading = () => (
