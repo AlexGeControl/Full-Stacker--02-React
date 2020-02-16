@@ -1,3 +1,5 @@
+import { baseUrl } from '../shared/baseUrl';
+
 import React from 'react';
 
 import { Container } from 'reactstrap';
@@ -79,6 +81,8 @@ function History() {
 }
 
 function RenderLeader({leaders, title}) {
+    const urljoin = require('url-join');
+
     return (
         <div>
             <div className="row row-content align-items-center">
@@ -94,7 +98,10 @@ function RenderLeader({leaders, title}) {
                                     <div key={leader.id} className="col-12">
                                         <Media>
                                             <Media left middle>
-                                                <Media object className="d-flex mr-3 img-thumbnail align-self-center" src={leader.image} alt={leader.name} />
+                                                <Media 
+                                                    object className="d-flex mr-3 img-thumbnail align-self-center" 
+                                                    src={urljoin(baseUrl, leader.image)} alt={leader.name} 
+                                                />
                                             </Media>
                                             <Media body>
                                                 <Media heading className="mt-0">

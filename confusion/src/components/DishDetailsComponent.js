@@ -1,3 +1,5 @@
+import { baseUrl } from '../shared/baseUrl';
+
 import React, { Component } from 'react';
 
 import { Container, Row, Col } from 'reactstrap';
@@ -36,10 +38,15 @@ function Navigation({dish}) {
 }
 
 function Overview({dish}) {
+    const urljoin = require('url-join');
+
     return (
         <div className="col-12 col-md-5 m-1">
             <Card>
-                <CardImg className="img-responsive" src={dish.image} alt={dish.name}/>
+                <CardImg 
+                    className="img-responsive" 
+                    src={urljoin(baseUrl, dish.image)} alt={dish.name}
+                />
                 
                 <CardBody>
                     <CardTitle>
@@ -103,9 +110,9 @@ class CommentForm extends Component {
     }
 
     onCommentSubmit(values) {
-        alert("[Comment]: " + JSON.stringify(values));
-
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment)
+        this.props.createComment(
+            this.props.dishId, values.rating, values.author, values.comment
+        );
     }
 
     render() {
@@ -215,7 +222,7 @@ class CommentForm extends Component {
     }
 }
 
-function Comments({comments, dishId, addComment}) {
+function Comments({comments, dishId, createComment}) {
     if (comments === undefined) {
         return (
             <div></div>
@@ -244,7 +251,7 @@ function Comments({comments, dishId, addComment}) {
                 </ListGroup>
             </Row>
 
-            <CommentForm dishId={dishId} addComment={addComment} />
+            <CommentForm dishId={dishId} createComment={createComment} />
         </div>
     );
 } 
@@ -254,7 +261,7 @@ const DishDetails = (props) => {
     const isLoading = props.dishIsLoading;
     const errMsgs = props.dishErrMsgs;
     const comments = props.comments;
-    const addComment = props.addComment;
+    const createComment = props.createComment;
 
     if (errMsgs) 
         return (
@@ -292,7 +299,7 @@ const DishDetails = (props) => {
 
             <div className="row">
                 <Overview dish={dish} />
-                <Comments comments={comments} dishId={dish.id} addComment={addComment} />
+                <Comments comments={comments} dishId={dish.id} createComment={createComment} />
             </div>
         </Container>
     );

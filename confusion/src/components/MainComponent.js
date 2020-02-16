@@ -29,10 +29,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        fetchComments: () => dispatch(ActionCreators.fetchComments()),
         fetchDishes: () => dispatch(ActionCreators.fetchDishes()),
+        fetchLeaders: () => dispatch(ActionCreators.fetchLeaders()),
+        fetchPromotions: () => dispatch(ActionCreators.fetchPromotions()),
 
-        addComment: (dishId, rating, author, comment) => dispatch(
-            ActionCreators.addComment(dishId, rating, author, comment)
+        createComment: (dishId, rating, author, comment) => dispatch(
+            ActionCreators.createComment(dishId, rating, author, comment)
         ),
 
         resetFeedbackForm: () => dispatch(actions.reset('feedback')),
@@ -41,24 +44,30 @@ const mapDispatchToProps = (dispatch) => {
 
 class Main extends Component {
     componentDidMount() {
+        this.props.fetchComments();
         this.props.fetchDishes();
+        this.props.fetchLeaders();
+        this.props.fetchPromotions();
     }
 
     render() {
         const HomePage = () => {
             const dish = this.props.dishes.data.find((dish) => dish.featured);
-            const promotion = this.props.promotions.find((promotion) => promotion.featured);
-            const leader = this.props.leaders.find((leader) => leader.featured);
+            const promotion = this.props.promotions.data.find((promotion) => promotion.featured);
+            const leader = this.props.leaders.data.find((leader) => leader.featured);
     
             return <Home 
                 dish={dish} dishIsLoading={this.props.dishes.isLoading} dishErrMsgs={this.props.dishes.errMsgs}
-                promotion={promotion} 
-                leader={leader}
+                promotion={promotion} promotionIsLoading={this.props.promotions.isLoading} promotionErrMsgs={this.props.promotions.errMsgs}
+                leader={leader} leaderIsLoading={this.props.leaders.isLoading} leaderErrMsgs={this.props.leaders.errMsgs}
             />;
         };
     
         const AboutPage = () => {
-            return <About leaders={this.props.leaders} />;
+            return <About 
+                leaders={this.props.leaders.data} 
+                isLoading={this.props.leaders.isLoading} errMsgs={this.props.leaders.errMsgs}
+            />;
         };
     
         const MenuPage = () => {
@@ -74,11 +83,12 @@ class Main extends Component {
             
             // identify dish and comments:
             const dish = this.props.dishes.data.find((dish) => dish.id === dishId);
-            const comments = this.props.comments.filter((comment) => comment.dishId === dishId);
+            const comments = this.props.comments.data.filter((comment) => comment.dishId === dishId);
     
             return <DishDetails 
                 dish={dish} dishIsLoading={this.props.dishes.isLoading} dishErrMsgs={this.props.dishes.errMsgs}
-                comments={comments} addComment={this.props.addComment}
+                comments={comments} dishIsLoading={this.props.comments.isLoading} dishErrMsgs={this.props.comments.errMsgs}
+                createComment={this.props.createComment}
             />;
         };
     

@@ -1,3 +1,5 @@
+import { baseUrl } from '../shared/baseUrl';
+
 import React from 'react';
 
 import { Container } from 'reactstrap';
@@ -9,6 +11,8 @@ function RenderItem(props) {
     const { title, item, isLoading, errMsgs } = props;
 
     const RenderMedia = ({ title, item }) => {
+        const urljoin = require('url-join');
+
         return (
             <div className="row row-content align-items-center">
                 <div className="col-12 col-sm-4 order-sm-last col-md-3">
@@ -16,7 +20,10 @@ function RenderItem(props) {
                 </div>
                 <div className="col-12 col-sm order-sm-first col-md">
                     <Media>
-                        <img className="d-flex mr-3 img-thumbnail align-self-center" src={item.image} alt={item.name} />
+                        <img 
+                            className="d-flex mr-3 img-thumbnail align-self-center" 
+                            src={urljoin(baseUrl, item.image)} alt={item.name} 
+                        />
                         <Media body>
                             <Media heading className="mt-0">
                                 {item.name}
@@ -59,8 +66,14 @@ function Home(props) {
                 title="Our Lipsmacking Culinary Creations" item={props.dish}
                 isLoading={props.dishIsLoading} errMsgs={props.dishErrMsgs}
             />
-            <RenderItem title="This Month's Promotions" item={props.promotion}  />
-            <RenderItem title="Meet our Culinary Specialists" item={props.leader}  />
+            <RenderItem 
+                title="This Month's Promotions" item={props.promotion}
+                isLoading={props.promotionIsLoading} errMsgs={props.promotionErrMsgs}
+            />
+            <RenderItem 
+                title="Meet our Culinary Specialists" item={props.leader}
+                isLoading={props.leaderIsLoading} errMsgs={props.leaderErrMsgs}
+            />
         </Container>
     );
 }

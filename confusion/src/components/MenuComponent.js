@@ -1,3 +1,5 @@
+import { baseUrl } from '../shared/baseUrl';
+
 import React from 'react';
 
 import { Container } from 'reactstrap';
@@ -33,6 +35,8 @@ function Navigation() {
     Menu: functional component
  */
 function RenderMenuItem({dish}) {
+    const urljoin = require('url-join');
+
     if (dish === null) {
         return (
             <div></div>
@@ -42,7 +46,10 @@ function RenderMenuItem({dish}) {
     return (            
         <Card>
             <Link to={`/menu/${dish.id}`}>            
-                <CardImg className="img-responsive" src={dish.image} alt={dish.name} />
+                <CardImg 
+                    className="img-responsive" 
+                    src={urljoin(baseUrl, dish.image)} alt={dish.name} 
+                />
                 <CardImgOverlay>
                     <CardTitle>
                         <strong>{dish.name}</strong>

@@ -1,5 +1,9 @@
 // comments:
-export const COMMENTS_ADD = 'COMMENTS_ADD';
+export const COMMENTS_LOADING = 'COMMENTS_LOADING';
+export const COMMENTS_FAILED = 'COMMENTS_FAILED';
+
+export const COMMENTS_CREATE = 'COMMENTS_CREATE';
+export const COMMENTS_READ = 'COMMENTS_READ';
 
 // dishes:
 export const DISHES_LOADING = 'DISHES_LOADING';
@@ -7,3 +11,17 @@ export const DISHES_FAILED = 'DISHES_FAILED';
 
 export const DISHES_CREATE = 'DISHES_CREATE';
 export const DISHES_READ = 'DISHES_READ';
+
+// leaders:
+export const LEADERS_LOADING = 'LEADERS_LOADING';
+export const LEADERS_FAILED = 'LEADERS_FAILED';
+
+export const LEADERS_CREATE = 'LEADERS_CREATE';
+export const LEADERS_READ = 'LEADERS_READ';
+
+// promotions:
+export const PROMOTIONS_LOADING = 'PROMOTIONS_LOADING';
+export const PROMOTIONS_FAILED = 'PROMOTIONS_FAILED';
+
+export const PROMOTIONS_CREATE = 'PROMOTIONS_CREATE';
+export const PROMOTIONS_READ = 'PROMOTIONS_READ';

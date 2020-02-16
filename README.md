@@ -6,6 +6,13 @@
 
 * **React Developer Tools** https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi 
 
+* **React Development Environment**
+
+```bash
+# node 10 in docker:
+docker run -it --rm -v $PWD:/home/node/app --network=host node:10 bash
+```
+
 * **Simple JSON Server** 
 
 Direct install using npm
