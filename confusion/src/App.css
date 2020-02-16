@@ -2,9 +2,9 @@
     mixins:
  */
 /*
-    document styles:
+	document styles:
  */
- body {
+body {
 	padding: 50px 0px 0px 0px;
 }
 
@@ -87,4 +87,29 @@ address {
 	margin: 0px auto;
 	font-size: 80%;
 	color: #0f0f0f;
+}
+
+/*
+	animation:
+ */
+.page-enter {
+	opacity: 0.01;
+	transform: translateX(-100%);
+}
+
+.page-enter-active {
+	opacity: 1.00;
+	transform: translateX(0%);
+	transition: all 300ms ease-in;
+}
+
+.page-exit {
+	opacity: 1.00;
+	transform: translateX(0%);
+}
+
+.page-exit-active {
+	opacity: 0.01;
+	transform: translateX(100%);
+	transition: all 300ms ease-out;
 }

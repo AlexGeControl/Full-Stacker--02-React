@@ -1,19 +1,36 @@
 # Single Page Application with React
 
+
 ---
- 
-## Resources:
 
-* **React Developer Tools** https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi 
+## Resources
 
-* **React Development Environment**
+### Development Environment Setup
 
 ```bash
 # node 10 in docker:
 docker run -it --rm -v $PWD:/home/node/app --network=host node:10 bash
 ```
 
-* **Simple JSON Server** 
+### Scaffolding
+
+Install create-react-app with either **yarn** or **npm**
+```bash
+# yarn:
+yarn global add create-react-app
+# npm:
+npm install -g create-react-app
+```
+
+### Chrome PlugIn
+
+* **React Developer Tools** https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi 
+
+### React-Redux Tutorial
+
+https://github.com/markerikson/react-redux-links/blob/master/redux-tutorials.md
+
+### Backend
 
 Direct install using npm
 ```bash
@@ -30,19 +47,3 @@ ls -alh
 # launch: internally bind to port 80 and externally expose at 3001
 docker run -d -p 3001:80 -v $PWD:/data clue/json-server
 ```
-
----
-
-## Scaffolding
-
-Install create-react-app with either **yarn** or **npm**
-```bash
-# yarn:
-yarn global add create-react-app
-# npm:
-npm install -g create-react-app
-```
-
-## React-Redux Tutorial
-
-https://github.com/markerikson/react-redux-links/blob/master/redux-tutorials.md

@@ -2,6 +2,8 @@ import { baseUrl } from '../shared/baseUrl';
 
 import React from 'react';
 
+import { FadeTransform } from 'react-animation-components';
+
 import { Container } from 'reactstrap';
 import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
@@ -43,20 +45,29 @@ function RenderMenuItem({dish}) {
         );
     }        
 
-    return (            
-        <Card>
-            <Link to={`/menu/${dish.id}`}>            
-                <CardImg 
-                    className="img-responsive" 
-                    src={urljoin(baseUrl, dish.image)} alt={dish.name} 
-                />
-                <CardImgOverlay>
-                    <CardTitle>
-                        <strong>{dish.name}</strong>
-                    </CardTitle>
-                </CardImgOverlay>
-            </Link>
-        </Card>
+    return (
+        <FadeTransform
+            in
+            transformProps={
+                {
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }
+            }
+        >            
+            <Card>
+                <Link to={`/menu/${dish.id}`}>            
+                    <CardImg 
+                        className="img-responsive" 
+                        src={urljoin(baseUrl, dish.image)} alt={dish.name} 
+                    />
+                    <CardImgOverlay>
+                        <CardTitle>
+                            <strong>{dish.name}</strong>
+                        </CardTitle>
+                    </CardImgOverlay>
+                </Link>
+            </Card>
+        </FadeTransform>
     );
 }
 

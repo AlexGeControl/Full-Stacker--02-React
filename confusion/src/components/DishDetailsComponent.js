@@ -2,6 +2,8 @@ import { baseUrl } from '../shared/baseUrl';
 
 import React, { Component } from 'react';
 
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+
 import { Container, Row, Col } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Card, CardImg, CardTitle, CardBody, CardText } from 'reactstrap';
@@ -42,21 +44,30 @@ function Overview({dish}) {
 
     return (
         <div className="col-12 col-md-5 m-1">
-            <Card>
-                <CardImg 
-                    className="img-responsive" 
-                    src={urljoin(baseUrl, dish.image)} alt={dish.name}
-                />
-                
-                <CardBody>
-                    <CardTitle>
-                        <strong>{dish.name}</strong>
-                    </CardTitle>
-                    <CardText>
-                        {dish.description}
-                    </CardText>
-                </CardBody>
-            </Card>
+            <FadeTransform
+                in
+                transformProps={
+                    {
+                        exitTransform: 'scale(0.5) translateY(-50%)'
+                    }
+                }
+            >
+                <Card>
+                    <CardImg 
+                        className="img-responsive" 
+                        src={urljoin(baseUrl, dish.image)} alt={dish.name}
+                    />
+                    
+                    <CardBody>
+                        <CardTitle>
+                            <strong>{dish.name}</strong>
+                        </CardTitle>
+                        <CardText>
+                            {dish.description}
+                        </CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
         </div>
     );
 }
@@ -236,18 +247,22 @@ function Comments({comments, dishId, postComment}) {
             </Row>
             
             <Row>
-                <ListGroup className="list-group-flush"> 
-                    {
-                        comments.map(
-                            (comment) => {
-                                return (
-                                    <div key={comment.id}>
-                                        <Comment comment={comment} />
-                                    </div>
-                                );
-                            }
-                        )
-                    }
+                <ListGroup className="list-group-flush">
+                    <Stagger in>
+                        {
+                            comments.map(
+                                (comment) => {
+                                    return (
+                                        <div key={comment.id}>
+                                            <Fade in>
+                                                <Comment comment={comment} />
+                                            </Fade>
+                                        </div>
+                                    );
+                                }
+                            )
+                        }
+                    </Stagger>
                 </ListGroup>
             </Row>
 
@@ -299,6 +314,7 @@ const DishDetails = (props) => {
 
             <div className="row">
                 <Overview dish={dish} />
+
                 <Comments comments={comments} dishId={dish.id} postComment={postComment} />
             </div>
         </Container>

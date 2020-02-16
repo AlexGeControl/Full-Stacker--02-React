@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import * as ActionCreators from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
 import Header from './HeaderComponent';
 
 import Home from './HomeComponent';
@@ -103,16 +105,19 @@ class Main extends Component {
         return (
             <div>                
                 <Header />
-    
-                <Switch>
-                    <Route path='/home' component={HomePage} />
-                    <Route path='/about' component={AboutPage} />
-                    <Route exact path='/menu' component={MenuPage} />
-                    <Route path='/menu/:dishId' component={DishPage} />
-                    <Route exact path='/contact' component={ContactPage} />
-                    <Redirect to="/home" />
-                </Switch>
                 
+                <TransitionGroup>
+                    <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>    
+                        <Switch location={this.props.location}>
+                            <Route path='/home' component={HomePage} />
+                            <Route path='/about' component={AboutPage} />
+                            <Route exact path='/menu' component={MenuPage} />
+                            <Route path='/menu/:dishId' component={DishPage} />
+                            <Route exact path='/contact' component={ContactPage} />
+                            <Redirect to="/home" />
+                        </Switch>
+                    </CSSTransition>
+                </TransitionGroup>                
                     
                 <Footer />
             </div>

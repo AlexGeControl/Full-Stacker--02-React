@@ -2,6 +2,8 @@ import { baseUrl } from '../shared/baseUrl';
 
 import React from 'react';
 
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+
 import { Container } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Media } from 'reactstrap';
@@ -91,37 +93,41 @@ function RenderLeader({leaders, title}) {
                 </div>
 
                 <ul className="list-unstyled mt-5">
-                    {
-                        leaders.map(
-                            (leader) => {
-                                return (
-                                    <div key={leader.id} className="col-12">
-                                        <Media>
-                                            <Media left middle>
-                                                <Media 
-                                                    object className="d-flex mr-3 img-thumbnail align-self-center" 
-                                                    src={urljoin(baseUrl, leader.image)} alt={leader.name} 
-                                                />
-                                            </Media>
-                                            <Media body>
-                                                <Media heading className="mt-0">
-                                                    {leader.name}
+                    <Stagger in>
+                        {
+                            leaders.map(
+                                (leader) => {
+                                    return (
+                                        <div key={leader.id} className="col-12">
+                                            <Fade in>
+                                                <Media>
+                                                    <Media left middle>
+                                                        <Media 
+                                                            object className="d-flex mr-3 img-thumbnail align-self-center" 
+                                                            src={urljoin(baseUrl, leader.image)} alt={leader.name} 
+                                                        />
+                                                    </Media>
+                                                    <Media body>
+                                                        <Media heading className="mt-0">
+                                                            {leader.name}
+                                                        </Media>
+
+                                                        <h5>
+                                                            {leader.designation}
+                                                        </h5>
+
+                                                        <p className="d-none d-sm-block">
+                                                            {leader.description}
+                                                        </p>
+                                                    </Media>
                                                 </Media>
-
-                                                <h5>
-                                                    {leader.designation}
-                                                </h5>
-
-                                                <p className="d-none d-sm-block">
-                                                    {leader.description}
-                                                </p>
-                                            </Media>
-                                        </Media>
-                                    </div>
-                                );
-                            }
-                        )
-                    }
+                                            </Fade>
+                                        </div>
+                                    );
+                                }
+                            )
+                        }
+                    </Stagger>
                 </ul>
             </div>
         </div>
