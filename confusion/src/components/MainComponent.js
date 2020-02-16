@@ -37,7 +37,8 @@ const mapDispatchToProps = (dispatch) => {
         postComment: (dishId, rating, author, comment) => dispatch(
             ActionCreators.postComment(dishId, rating, author, comment)
         ),
-
+        
+        postFeedback: (feedback) => dispatch(ActionCreators.postFeedback(feedback)),
         resetFeedbackForm: () => dispatch(actions.reset('feedback')),
     };
 }
@@ -92,7 +93,12 @@ class Main extends Component {
             />;
         };
     
-        const ContactPage = () => {return <Contact resetFeedbackForm={this.props.resetFeedbackForm} />}
+        const ContactPage = () => {
+            return <Contact 
+                postFeedback={this.props.postFeedback}
+                resetFeedbackForm={this.props.resetFeedbackForm} 
+            />;
+        }
     
         return (
             <div>                

@@ -9,7 +9,7 @@ import Dishes from './reducer/dishes';
 import Leaders from './reducer/leaders';
 import Promotions from './reducer/promotions';
 
-import { initialFeedback } from './reducer/forms';
+import { initialFeedback } from './reducer/feedback';
 
 export function configureStore() {
     const store = createStore(

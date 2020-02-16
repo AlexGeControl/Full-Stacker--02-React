@@ -98,8 +98,8 @@ function Contact(props) {
         
         // on submit:
         const onSubmit = (values) => {
-            // TODO: push inputs to server
-            alert(JSON.stringify(values));
+            // post to backend:
+            props.postFeedback(values);
 
             // reset values:
             props.resetFeedbackForm();
@@ -256,19 +256,19 @@ function Contact(props) {
                             <div className="row align-items-center">
                                 <div className="col-md-6 offset-md-2">
                                     <FormGroup check>
-                                        <Control.checkbox model=".approved" id="approved" 
-                                            name="approved"
+                                        <Control.checkbox model=".agree" id="agree" 
+                                            name="agree"
                                             className="form-check-input"
                                         />
-                                        <Label check for="approved">
+                                        <Label check for="agree">
                                             <strong>May We Contact You?</strong>
                                         </Label>
                                     </FormGroup>
                                 </div>
                                 <div className="col-md-3 offset-md-1">
                                     <FormGroup>
-                                        <Control.select model=".approach" id="approach"
-                                            name="approach" id="approach"
+                                        <Control.select model=".contactType" id="contactType"
+                                            name="contactType" id="contactType"
                                             className="form-control"
                                         >
                                             <option>Tel. Number</option>
@@ -281,11 +281,11 @@ function Contact(props) {
                         <FormGroup>
                             <div className="row align-items-center">
                                 <div className="col-12 col-md-2">
-                                    <Label for="feedback">Your Feedback</Label>
+                                    <Label for="message">Your Feedback</Label>
                                 </div>
                                 <div className="col-12 col-md-10">
-                                    <Control.textarea model=".feedback" id="feedback" 
-                                        name="feedback" rows="12"
+                                    <Control.textarea model=".message" id="message" 
+                                        name="message" rows="12"
                                         className="form-control" 
                                     />
                                 </div>

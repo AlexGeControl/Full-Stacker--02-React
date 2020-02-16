@@ -112,7 +112,7 @@ export const postComment = (dishId, rating, author, comment) => (
             }
         )
     }
-)
+);
 
 // dishes:
 export const dishesLoading = () => (
@@ -270,5 +270,75 @@ export const fetchPromotions = () => (
             .catch(
                 error => dispatch(promotionsFailed(error.message))
             )
+    }
+);
+
+// feedback:
+export const postFeedback = (
+    {
+        firstname, 
+        lastname,
+        areacode, 
+        telnum, 
+        email,
+        agree,
+        contactType,
+        message
+    }
+) => (
+    (dispatch) => {
+        const newFeedback = {
+            firstname: firstname, 
+            lastname: lastname,
+            areacode: areacode,
+            telnum: telnum, 
+            email: email,
+            agree: agree,
+            contactType: contactType,
+            message: message
+        };
+        newFeedback.date = new Date().toISOString();
+
+        fetch(
+            urljoin(baseUrl, 'feedback'),
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newFeedback),
+                credentials: "same-origin"
+            }
+        )
+        .then(
+            // response:
+            response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    let error = new Error('[Error] ' + response.status + ': ' + response.statusText);
+                    error.response = response;
+
+                    throw error;
+                }
+
+            },
+            // rejected:
+            rejection => {
+                let error = new Error(rejection.message);
+                throw error;
+            }
+        )
+        .then(response => response.json())
+        .then(
+            feedback => {
+                alert('Thanks for your feedback! ' + JSON.stringify(feedback))
+            }
+        )
+        .catch(
+            error => {
+                alert('Your feedback cannot be uploaded ' + error.message);
+            }
+        )
     }
 );
